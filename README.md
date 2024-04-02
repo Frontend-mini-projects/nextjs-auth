@@ -15,3 +15,4 @@
     - connect mongoose to the app
     - create signup/login frontend component
     - create the profile page and particular user profile using params
+    - 

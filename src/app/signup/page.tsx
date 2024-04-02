@@ -1,10 +1,17 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
+import LoadingIcon from '../../../public/loading.svg';
+import Image from 'next/image';
 
 export default function SignupPage() {
+
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDisable, setIsDisable] = useState(true);
 
   const [user, setUser] = useState({
     username: '',
@@ -13,10 +20,59 @@ export default function SignupPage() {
     confirmPassword: ''
   });
 
+
+  useEffect(()=>{
+
+    if(!(!user.username || !user.email || !user.password || !user.confirmPassword)){
+      setIsDisable(false);
+    }
+    else{
+      setIsDisable(true);
+    }
+
+  }, [user]);
+
+  const validation = () =>{
+    if(!user.username){
+      toast.error("Username should not be empty");
+      return false;
+    }
+    else if(!user.email){
+      toast.error("Email should not be empty");
+      return false;
+    }
+    else if(!user.password){
+      toast.error("Password should not be empty");
+      return false;
+    }
+    else if( user.password !== user.confirmPassword){
+      toast.error("Password mismatch");
+      return false;
+    }
+    return true;
+  }
+
   const handleSubmit = async (e:any) => {
     e.preventDefault();
     console.log('handel submit clicked');
     console.log(user);
+    const isValid = validation();
+    if(isValid){
+      setIsLoading(true);
+      const {data} = await axios.post('/api/users/signup', user);
+      console.log('backend data received', data);
+      if(data.status){
+        toast.success(data.msg);
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
+      }
+      else{
+        toast.error(data.msg);
+      }
+      setIsLoading(false);
+    }
+
   }
   return (
     <div className='bg-black text-white min-h-screen flex items-center justify-center p-2'>
@@ -62,10 +118,12 @@ export default function SignupPage() {
             placeholder='confirmPassword'
             className='border border-gray-500 focus:outline-none rounded-md p-1 w-full bg-gray-900 text-white' />
         </div>
+        
 
         {/* Submit button */}
         <div className='mb-6'>
-          <button type='submit' className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Signup</button>
+          <button type='submit' className={`flex justify-center items-center bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 rounded focus:outline-none focus:shadow-outline ${isLoading ? 'py-0' : 'py-2'}` } disabled={isDisable}>{isDisable? "Fill the form fields first" :
+           `SignUp`} {isLoading ? <Image src={LoadingIcon} alt="Loading" className=' w-12 h-10' width={30} height={10} /> : ''}  </button>
         </div>
 
         {/* Link to Login page */}
@@ -73,6 +131,8 @@ export default function SignupPage() {
           <Link href={'/login'} className= ' text-blue-400'>Already Registered? Login</Link>
         </div>
       </form>
+      <Toaster />
+
     </div>
   )
 }
