@@ -22,4 +22,5 @@
     - complete the backend for the login page and connect to login frontend using axios
     - complete logout backend and frontend both
     - add not-found.tsx
-    -
+    - setup middleware for restricted access to these routes
+    
