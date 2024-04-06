@@ -18,3 +18,8 @@
     - Add the input field validation before signup
     - Enable signup button only when all fields are filled and show a loading svg in the button during the data fetching from backend.
     - complete the backend section for the signup page and connect to signup frontend using axios
+
+    - complete the backend for the login page and connect to login frontend using axios
+    - complete logout backend and frontend both
+    - add not-found.tsx
+    -
