@@ -35,11 +35,11 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
         });
 
         // html for verify email
-        let verifyHtml = `<p>Verify email within 1 hrs</p><br><p>Click <a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}">here</a> to Verify or paste the below url in the browser <br> ${process.env.DOMAIN}/verifyemail?token=${hashedToken}`;
+        let verifyHtml = `<p>Verify email within 1 hrs</p><br><p>Click <a href="${process.env.NEXT_PUBLIC_DOMAIN}/verifyemail?token=${hashedToken}">here</a> to Verify or paste the below url in the browser <br> ${process.env.NEXT_PUBLIC_DOMAIN}/verifyemail?token=${hashedToken}`;
 
 
         // html part for forget passsword
-        const forgetHtml = `<p>Reset Password within 1 hrs</p><br><p>Click <a href="${process.env.DOMAIN}/resetpassword?token=${hashedToken}">here</a> to Reset your password or paste the below url in the browser <br> ${process.env.DOMAIN}/resetpassword?token=${hashedToken}`
+        const forgetHtml = `<p>Reset Password within 1 hrs</p><br><p>Click <a href="${process.env.NEXT_PUBLIC_DOMAIN}/resetpassword?token=${hashedToken}">here</a> to Reset your password or paste the below url in the browser <br> ${process.env.NEXT_PUBLIC_DOMAIN}/resetpassword?token=${hashedToken}`
 
 
         // creating mailoption refer nodemailer
