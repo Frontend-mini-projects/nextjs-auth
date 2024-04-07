@@ -23,4 +23,4 @@
     - complete logout backend and frontend both
     - add not-found.tsx
     - setup middleware for restricted access to these routes
-    
+    - Extract data from token
