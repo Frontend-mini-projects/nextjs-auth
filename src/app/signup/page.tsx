@@ -85,7 +85,7 @@ export default function SignupPage() {
           <input type="text" id='username'
             value={user.username}
             onChange={(e) => setUser({ ...user, username: e.target.value })}
-            placeholder='username'
+            placeholder=''
             className='border border-gray-500 focus:outline-none rounded-md p-1 w-full bg-gray-900 text-white' />
         </div>
 
@@ -95,7 +95,7 @@ export default function SignupPage() {
           <input type="email" id='email'
             value={user.email}
             onChange={(e) => setUser({ ...user, email: e.target.value })}
-            placeholder='email'
+            placeholder=''
             className='border border-gray-500 focus:outline-none rounded-md p-1 w-full bg-gray-900 text-white' />
         </div>
 
@@ -105,7 +105,7 @@ export default function SignupPage() {
           <input type="password" id='password'
             value={user.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
-            placeholder='password'
+            placeholder=''
             className='border border-gray-500 focus:outline-none rounded-md p-1 w-full bg-gray-900 text-white' />
         </div>
 
@@ -115,7 +115,7 @@ export default function SignupPage() {
           <input type="password" id='confirmPassword'
             value={user.confirmPassword}
             onChange={(e) => setUser({ ...user, confirmPassword: e.target.value })}
-            placeholder='confirmPassword'
+            placeholder=''
             className='border border-gray-500 focus:outline-none rounded-md p-1 w-full bg-gray-900 text-white' />
         </div>
         

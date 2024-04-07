@@ -18,46 +18,46 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const verifyData = ()=>{
-    if(!user.email){
+  const verifyData = () => {
+    if (!user.email) {
       toast.error('Email is required');
       return false;
     }
-    else if(!user.password){
+    else if (!user.password) {
       toast.error('Password is required');
       return false;
     }
     return true;
   }
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.log('handle submit clicked', user);
     const verify = verifyData();
-    if(!verify){
+    if (!verify) {
       return;
     }
-    
-    try{
+
+    try {
       setIsLoading(true);
-      const {data} = await axios.post('/api/users/login', user);
+      const { data } = await axios.post('/api/users/login', user);
       console.log('response', data);
-      if(data.status){
+      if (data.status) {
         toast.success(data.msg);
         setTimeout(() => {
           router.push('/profile');
         }, 2000);
       }
-      else if(data.status == false){
+      else if (data.status == false) {
         toast.error(data.msg);
       }
 
     }
-    catch(err){
+    catch (err: any) {
       console.log('error', err);
       toast.error(err.message);
     }
-    finally{
+    finally {
       setIsLoading(false);
     }
 
@@ -67,14 +67,14 @@ export default function LoginPage() {
     <div className='bg-black text-white min-h-screen flex items-center justify-center'>
       <form onSubmit={handleSubmit} className='max-w-md w-full'>
         <h1 className='text-3xl font-bold mb-6'>Login</h1>
-        
+
         {/* Email input */}
         <div className='mb-4'>
           <label htmlFor="email" className='block mb-1'>Email</label>
           <input type="email" id='email'
             value={user.email}
             onChange={(e) => setUser({ ...user, email: e.target.value })}
-            placeholder='email'
+            placeholder=''
             className='border border-gray-500 focus:outline-none rounded-md p-1 w-full bg-gray-900 text-white' />
         </div>
 
@@ -84,21 +84,27 @@ export default function LoginPage() {
           <input type="password" id='password'
             value={user.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
-            placeholder='password'
+            placeholder=''
             className='border border-gray-500 focus:outline-none rounded-md p-1 w-full bg-gray-900 text-white' />
         </div>
 
+
         {/* Submit button */}
-        <div className='mb-6'>
-          <button type='submit' className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' disabled={isLoading}>{isLoading? "Processing": "Login"}</button>
+        <div className='mb-6 flex justify-between'>
+          <button type='submit' className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' disabled={isLoading}>{isLoading ? "Processing" : "Login"}</button>
+          
+          {/* forget password */}
+            <Link href={'/forgetpassword'} className='text-blue-400'>Forget Password</Link>
         </div>
 
         {/* Link to Signup page */}
-        <div>
+        <div className='text-center'>
           <Link href={'/signup'} className='text-blue-400'>Not Registered? SignUp</Link>
         </div>
+
+        
       </form>
-      <Toaster/>
+      <Toaster />
     </div>
   )
 }

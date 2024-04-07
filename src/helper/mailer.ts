@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 import User from '@/models/userModel';
 import bcryptjs from 'bcryptjs';
 
-export const sendEmail = async  ({email, emailType, userId}: any) =>{
+export const sendEmail = async ({ email, emailType, userId }: any) => {
     try {
 
         // setting the token in the 
@@ -10,17 +10,17 @@ export const sendEmail = async  ({email, emailType, userId}: any) =>{
         console.log('hashed token', hashedToken);
 
         // for verifying the user
-        if(emailType === 'VERIFY'){
+        if (emailType === 'VERIFY') {
             await User.findByIdAndUpdate(userId, {
                 verifyToken: hashedToken,
-                verifyTokenExpiry: Date.now() + 60*60*1000
+                verifyTokenExpiry: Date.now() + 60 * 60 * 1000
             })
         }
         // for forget password
-        else if(emailType === 'RESET'){
+        else if (emailType === 'RESET') {
             await User.findByIdAndUpdate(userId, {
                 forgetPasswordToken: hashedToken,
-                forgetPasswordTokenExpiry: Date.now() + 60*60*1000
+                forgetPasswordTokenExpiry: Date.now() + 60 * 60 * 1000
             })
         }
 
@@ -29,10 +29,18 @@ export const sendEmail = async  ({email, emailType, userId}: any) =>{
             host: "sandbox.smtp.mailtrap.io",
             port: 2525,
             auth: {
-              user: process.env.MAILTRAP_USER,
-              pass: process.env.MAILTRAP_PASS
+                user: process.env.MAILTRAP_USER,
+                pass: process.env.MAILTRAP_PASS
             }
-          });
+        });
+
+        // html for verify email
+        let verifyHtml = `<p>Verify email within 1 hrs</p><br><p>Click <a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}">here</a> to Verify or paste the below url in the browser <br> ${process.env.DOMAIN}/verifyemail?token=${hashedToken}`;
+
+
+        // html part for forget passsword
+        const forgetHtml = `<p>Reset Password within 1 hrs</p><br><p>Click <a href="${process.env.DOMAIN}/resetpassword?token=${hashedToken}">here</a> to Reset your password or paste the below url in the browser <br> ${process.env.DOMAIN}/resetpassword?token=${hashedToken}`
+
 
         // creating mailoption refer nodemailer
         const mailOption = {
@@ -40,15 +48,15 @@ export const sendEmail = async  ({email, emailType, userId}: any) =>{
             to: email, // list of receivers
             text: "Welcome to my first next app, verify email within 1 hrs",
             subject: emailType === "VERIFY" ? "Verify your email" : "Reset your password", // Subject line
-            html: `<p>Verify email within 1 hrs</p><br><p>Click <a href="${process.env.DOMAIN}/verifyemail?token=${hashedToken}">here</a> to ${emailType === "VERIFY" ? "Verify your email" : "Reset your password"} or paste the below url in the browser <br> ${process.env.DOMAIN}/verifyemail?token=${hashedToken}`, // html body
-            
+            html: emailType === "VERIFY" ? verifyHtml : forgetHtml, // html body
         }
+
 
         const mailResponse = await transport.sendMail(mailOption);
 
         console.log('sendmail from mailer.ts', mailResponse);
-        
-    } catch (error:any) {
+
+    } catch (error: any) {
         throw new Error(error.message);
     }
 }

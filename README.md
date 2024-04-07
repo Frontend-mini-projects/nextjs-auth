@@ -24,3 +24,8 @@
     - add not-found.tsx
     - setup middleware for restricted access to these routes
     - Extract data from token
+
+    - setup mailtrap for testing mail feature
+    - send mail through nodemailer
+    - setup frontend and backend for verify email
+    - setup frontend and backend for reset password
