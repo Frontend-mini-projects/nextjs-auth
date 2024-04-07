@@ -32,7 +32,7 @@ export const POST = async (request: NextRequest) => {
             email: uname.email
         }
 
-        const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {expiresIn: "1d"});
+        const token = await jwt.sign(tokenData, String(process.env.TOKEN_SECRET),  {expiresIn: "1d"});
         console.log('token', token);
 
         const response = NextResponse.json({

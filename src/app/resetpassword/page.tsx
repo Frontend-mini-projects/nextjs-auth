@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast, Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
-export default function page() {
+export default function Page() {
 
     const [token, setToken] = useState('');
     const [password, setPassword] = useState('');
