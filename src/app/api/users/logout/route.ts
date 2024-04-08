@@ -4,7 +4,7 @@ export const GET = async () =>{
 
     try{
         const response = NextResponse.json({status: true, msg: "Logout Successful"});
-        response.cookies.set('token', "");
+        response.cookies.delete('token')
         return response;
 
     }
